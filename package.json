@@ -2,6 +2,8 @@
   "name": "thenextrental",
   "version": "0.1.0",
   "private": true,
+  "main": "function.js",
+  "repository": "https://github.com/MaverickCER/thenextrental",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,11 +11,27 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "12.3.1",
+    "@emotion/cache": "^11.10.3",
+    "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.4",
+    "@fontsource/roboto": "^4.5.8",
+    "@googlemaps/js-api-loader": "^1.14.3",
+    "@mui/material": "^5.10.6",
+    "@stripe/firestore-stripe-payments": "^0.0.6",
+    "@stripe/stripe-js": "^1.38.1",
+    "firebase": "^9.10.0",
+    "next": "12.2.2",
+    "next-pwa": "^5.4.7",
+    "next-transpile-modules": "^9.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.36.1",
+    "react-hotjar": "^5.1.0",
+    "typescript": "^4.8.3"
   },
   "devDependencies": {
+    "@types/google.maps": "^3.50.2",
     "eslint": "8.24.0",
     "eslint-config-next": "12.3.1"
   }
