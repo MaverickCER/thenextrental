@@ -27,12 +27,12 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 let analytics: Analytics, messaging: Messaging;
-ancSupported().then((isSupported) => {
+ancSupported().then((isSupported:boolean) => {
   if (isSupported) {
     analytics = getAnalytics(app);
   }
 });
-msgSupported().then((isSupported) => {
+msgSupported().then((isSupported:boolean) => {
   if (isSupported) {
     messaging = getMessaging(app);
   }

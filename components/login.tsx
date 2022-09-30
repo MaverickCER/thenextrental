@@ -11,7 +11,7 @@ interface Inputs {
 
 type properties = FunctionComponent<{
   setIsTracking: Dispatch<SetStateAction<boolean>>;
-}>
+}>;
 
 const Login: properties = ({ setIsTracking }) => {
   const { signIn, signUp, loading, error } = useAuth();

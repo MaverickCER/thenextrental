@@ -1,0 +1,32 @@
+yarn add v1.22.19
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+success Saved lockfile.
+success Saved 21 new dependencies.
+info Direct dependencies
+└─ webpack@5.74.0
+info All dependencies
+├─ @types/eslint-scope@3.7.4
+├─ @types/eslint@8.4.6
+├─ @webassemblyjs/floating-point-hex-parser@1.11.1
+├─ @webassemblyjs/helper-numbers@1.11.1
+├─ @webassemblyjs/helper-wasm-section@1.11.1
+├─ @webassemblyjs/wasm-edit@1.11.1
+├─ @webassemblyjs/wasm-opt@1.11.1
+├─ @webassemblyjs/wast-printer@1.11.1
+├─ @xtuc/ieee754@1.2.0
+├─ acorn-import-assertions@1.8.0
+├─ chrome-trace-event@1.0.3
+├─ es-module-lexer@0.9.3
+├─ eslint-scope@5.1.1
+├─ events@3.3.0
+├─ loader-runner@4.3.0
+├─ mime-db@1.52.0
+├─ mime-types@2.1.35
+├─ neo-async@2.6.2
+├─ watchpack@2.4.0
+├─ webpack-sources@3.2.3
+└─ webpack@5.74.0
+Done in 7.09s.
