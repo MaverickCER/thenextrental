@@ -10,6 +10,7 @@ import { auth, database } from '../utils/firebase';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { onDisconnect, onValue, ref, serverTimestamp, update } from 'firebase/database';
 
+import React from 'react';
 import payments from '../utils/stripe';
 import { useRouter } from 'next/router';
 
@@ -21,14 +22,6 @@ interface IAuth {
   logout: () => Promise<void>;
   error: string | null;
   loading: boolean;
-}
-interface dbUser {
-  user: {
-    [k: string]: {
-      status: string,
-      timestamp: number
-    }
-  }
 }
 
 const AuthContext = createContext<IAuth>({
@@ -47,7 +40,7 @@ interface AuthProviderProps {
 
 const useAuthContext = () => {
   return useContext(AuthContext);
-}
+};
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const router = useRouter();
@@ -66,7 +59,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(userCredential.user);
         setLoading(false);
       })
-      .catch((error) => setError(error.message))
+      .catch((error: any) => setError(error.message))
       .finally(() => setLoading(false));
   };
 
@@ -79,7 +72,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(userCredential.user);
         setLoading(false);
       })
-      .catch((error) => {setError(error.message); console.error(error)})
+      .catch((error: any) => {
+        setError(error.message);
+        console.error(error);
+      })
       .finally(() => setLoading(false));
   };
 
@@ -94,7 +90,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       .finally(() => setLoading(false));
   };
 
-  
   const presence = () => {
     if (user) {
       // stores the timestamp of my last disconnect (the last time I was seen online)
@@ -108,42 +103,49 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         disconnect[`user/${user.uid}/status`] = 'online';
         disconnect[`user/${user.uid}/timestamp`] = serverTimestamp();
         // establish a connection and set up the disconnect events.
-        onDisconnect(ref(database)).update(disconnect).then(() => {
-          // Now that the user will go offline once disconnected, show that they are online.
-          let connect: { [key: string]: any } = {};
-          connect[`user/${user.uid}/status`] = 'online';
-          connect[`user/${user.uid}/timestamp`] = serverTimestamp();
-          update(ref(database), connect);
-        });
+        onDisconnect(ref(database))
+          .update(disconnect)
+          .then(() => {
+            // Now that the user will go offline once disconnected, show that they are online.
+            let connect: { [key: string]: any } = {};
+            connect[`user/${user.uid}/status`] = 'online';
+            connect[`user/${user.uid}/timestamp`] = serverTimestamp();
+            update(ref(database), connect);
+          });
       });
     }
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Logged in...
-        setUser(user);
-        presence();
-      } else {
-        // Not logged in...
-        setUser(null);
-      }
+    try {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // Logged in...
+          setUser(user);
+          presence();
+        } else {
+          // Not logged in...
+          setUser(null);
+        }
 
-      setInitialLoading(false);
-    });
-
-    if (user) {
-      onCurrentUserSubscriptionUpdate(payments, (snapshot) => {
-        setSubscription(
-          // returns first active or trailing subscription or undefined
-          snapshot.subscriptions.filter(
-            (subscription) => subscription.status === 'active' || subscription.status === 'trialing'
-          )[0]
-        );
+        setInitialLoading(false);
       });
-    } else if (subscription) {
-      setSubscription(null);
+
+      if (user) {
+        onCurrentUserSubscriptionUpdate(payments, (snapshot) => {
+          setSubscription(
+            // returns first active or trailing subscription or undefined
+            snapshot.subscriptions.filter(
+              (subscription: { status: string }) =>
+                subscription.status === 'active' || subscription.status === 'trialing'
+            )[0]
+          );
+        });
+      } else if (subscription) {
+        setSubscription(null);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [user]);
 
